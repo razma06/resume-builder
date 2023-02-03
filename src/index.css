@@ -1,0 +1,22 @@
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+:root {
+    --primary: #f93b1d;
+    --secondary: #2e2e2e;
+    --heading: #1a1a1a;
+    --label: #000;
+    --placeholder: rgba(0, 0, 0, 0.6);
+    --boder: #bcbcbc;
+    --success: #98e37e;
+    --error: #ef5050;
+    --home-button: #1c1c1c;
+    --upload-button: #62a1eb;
+    --navigation-button: #6b40e3;
+    --header-border: #f93b1d;
+}
