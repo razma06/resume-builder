@@ -7,6 +7,7 @@ interface FlexProps {
     flexWrap?: string;
     width?: string;
     height?: string;
+    minHeight?: string;
     columnGap?: string;
     rowGap?: string;
 }
@@ -19,6 +20,7 @@ export const Flex = styled.div<FlexProps>`
     flex-wrap: ${(props) => props.flexWrap || "nowrap"};
     width: ${(props) => props.width || "auto"};
     height: ${(props) => props.height || "auto"};
+    min-height: ${(props) => props.minHeight || "auto"};
     column-gap: ${(props) => props.columnGap || "0"};
     row-gap: ${(props) => props.rowGap || "0"};
 `;

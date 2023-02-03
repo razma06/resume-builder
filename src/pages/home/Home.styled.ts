@@ -36,5 +36,5 @@ export const HomeButton = styled.button`
     transform: translate(-50%, -50%);
     color: white;
     font-size: 1.25rem;
-    font-weight: 500;
+    font-weight: medium;
 `;

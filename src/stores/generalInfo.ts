@@ -2,6 +2,7 @@ import { create } from "zustand";
 
 export interface GeneralInfo {
     name: string;
+    secondName: string;
     age: number;
     address: string;
 }
@@ -13,7 +14,8 @@ export interface GeneralInfoStore {
 
 export const useGeneralInfoStore = create<GeneralInfoStore>((set) => ({
     generalInfo: {
-        name: "John Doe",
+        name: "",
+        secondName: "",
         age: 30,
         address: "123 Main St",
     },

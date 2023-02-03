@@ -1,9 +1,14 @@
+@font-face {
+    font-family: Nino;
+    src: local("Nino"), url("./assets/fonts/bpg-nino-mtavruli.ttf");
+}
 *,
 *::before,
 *::after {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
+    font-family: Nino;
 }
 
 :root {
@@ -12,11 +17,12 @@
     --heading: #1a1a1a;
     --label: #000;
     --placeholder: rgba(0, 0, 0, 0.6);
-    --boder: #bcbcbc;
+    --border: #bcbcbc;
     --success: #98e37e;
     --error: #ef5050;
     --home-button: #1c1c1c;
     --upload-button: #62a1eb;
     --navigation-button: #6b40e3;
     --header-border: #f93b1d;
+    --form-bg: #f9f9f9;
 }
