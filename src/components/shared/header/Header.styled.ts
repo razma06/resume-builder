@@ -5,6 +5,7 @@ export const HeaderContainer = styled(Flex)`
     border-bottom: 2px solid var(--heading);
     padding-bottom: 0.75rem;
     margin-bottom: 77px;
+    /* position: relative; */
 `;
 
 export const HeaderStepName = styled.h1`

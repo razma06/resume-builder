@@ -3,8 +3,10 @@ import { create } from "zustand";
 export interface GeneralInfo {
     name: string;
     secondName: string;
-    age: number;
-    address: string;
+    email: string;
+    phone: string;
+    aboutMe?: string;
+    idImage: FileList;
 }
 
 export interface GeneralInfoStore {
@@ -16,8 +18,10 @@ export const useGeneralInfoStore = create<GeneralInfoStore>((set) => ({
     generalInfo: {
         name: "",
         secondName: "",
-        age: 30,
-        address: "123 Main St",
+        email: "",
+        phone: "",
+        aboutMe: "",
+        idImage: {} as FileList,
     },
     setGeneralInfo: (generalInfo: GeneralInfo) => set({ generalInfo }),
 }));

@@ -1,6 +1,7 @@
 import styled from "styled-components";
 
 interface FlexProps {
+    position?: string;
     flexDirection?: string;
     justifyContent?: string;
     alignItems?: string;
@@ -14,6 +15,7 @@ interface FlexProps {
 
 export const Flex = styled.div<FlexProps>`
     display: flex;
+    position: ${(props) => props.position || "static"};
     flex-direction: ${(props) => props.flexDirection || "row"};
     justify-content: ${(props) => props.justifyContent || "flex-start"};
     align-items: ${(props) => props.alignItems || "flex-start"};

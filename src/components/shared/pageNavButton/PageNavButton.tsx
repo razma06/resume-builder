@@ -1,7 +1,7 @@
 import { PageNavButtonStyled } from "./PageNavButton.styled";
 
-const PageNavButton = ({ children }: { children: string }) => {
-    return <PageNavButtonStyled>{children}</PageNavButtonStyled>;
+const PageNavButton = ({ value }: { value: string }) => {
+    return <PageNavButtonStyled as="input" type="submit" value={value} />;
 };
 
 export default PageNavButton;
