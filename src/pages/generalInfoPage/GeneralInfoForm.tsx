@@ -20,8 +20,8 @@ const GeneralInfoForm = () => {
         register,
         handleSubmit,
         watch,
-        setValue,
         getValues,
+        setValue,
         formState: { errors, dirtyFields },
     } = useForm({ mode: "onChange" });
     const setGeneralInfo = useGeneralInfoStore((state) => state.setGeneralInfo);
@@ -29,7 +29,6 @@ const GeneralInfoForm = () => {
     const navigate = useNavigate();
 
     const onChange = () => {
-        console.log(getValues());
         const values = watch();
         const { name, secondName, email, phone, aboutMe, idImage } = values;
         setGeneralInfo({
@@ -42,8 +41,11 @@ const GeneralInfoForm = () => {
         });
     };
 
+    useEffect(() => {
+        setValue("idImage", generalinfo.idImage);
+    }, []);
+
     const onSubmit: SubmitHandler<FieldValues> = (data) => {
-        console.log(data);
         if (Object.keys(errors).length > 0) return;
         navigate("/add/2");
     };
@@ -91,6 +93,7 @@ const GeneralInfoForm = () => {
                     type="file"
                     accept=".jpg , .jpeg, .png"
                     {...register("idImage", imageValidation)}
+                    defaultChecked={generalinfo.idImage ? true : false}
                 />
             </Flex>
             <InputTextField

@@ -2,6 +2,7 @@
     font-family: Helvetica;
     src: local("Helvetica"), url("./assets/fonts/HelveticaNeue.ttc");
 }
+
 *,
 *::before,
 *::after {

@@ -10,7 +10,7 @@ const Home = () => {
                 <img src={RedberryLogo} alt="Redberry logo" />
             </Header>
             <HomeContainer>
-                <Link to="/add">
+                <Link to="/add/1">
                     <HomeButton>რეზიუმეს დამატება</HomeButton>
                 </Link>
                 <img src={BG} alt="background" />

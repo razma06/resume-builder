@@ -1,12 +1,20 @@
-import GeneralInfoForm from "@/pages/generalInfoForm/GeneralInfoForm";
+import GeneralInfoForm from "@/pages/generalInfoPage/GeneralInfoForm";
 import React from "react";
-import { UseFormRegister, UseFormRegisterReturn } from "react-hook-form";
+import {
+    Control,
+    Controller,
+    FieldValue,
+    FieldValues,
+    UseFormRegisterReturn,
+} from "react-hook-form";
 import {
     Input,
     InputFieldContainer,
     InputFieldHint,
     InputFieldLabel,
 } from "./InputField.styled";
+import Select from "react-select";
+import ReactSelect from "@/components/library/ReactSelect";
 
 interface InputFieldProps {
     label: string;
@@ -16,7 +24,11 @@ interface InputFieldProps {
     isError?: boolean;
     isSuccess?: boolean;
     value?: any;
-    register: UseFormRegisterReturn<string>;
+    register?: UseFormRegisterReturn<string>;
+    wantSelect?: boolean;
+    options?: any[];
+    control?: Control<FieldValues, any>;
+    name?: string;
 }
 
 const InputField: React.FC<InputFieldProps> = ({
@@ -28,16 +40,36 @@ const InputField: React.FC<InputFieldProps> = ({
     isSuccess,
     register,
     value,
+    wantSelect,
+    options,
+    control,
+    name = "",
 }) => {
     return (
         <InputFieldContainer isError={isError} isSuccess={isSuccess}>
             <InputFieldLabel>{label}</InputFieldLabel>
-            <Input
-                value={value}
-                placeholder={placeholder}
-                type={type}
-                {...register}
-            />
+            {wantSelect ? (
+                <Controller
+                    name={name}
+                    control={control}
+                    rules={{ required: true }}
+                    render={({ field }) => (
+                        <ReactSelect
+                            {...field}
+                            placeholder={placeholder}
+                            options={options}
+                            getOptionLabel={(option: any) => option.title}
+                        />
+                    )}
+                ></Controller>
+            ) : (
+                <Input
+                    value={value}
+                    placeholder={placeholder}
+                    type={type}
+                    {...register}
+                />
+            )}
             <InputFieldHint>{hint}</InputFieldHint>
         </InputFieldContainer>
     );

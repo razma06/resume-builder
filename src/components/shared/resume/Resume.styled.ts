@@ -3,6 +3,8 @@ import styled from "styled-components";
 export const ResumeContainer = styled.aside`
     width: 822px;
     padding: 68px 80px;
+    background-color: white;
+    min-height: 100vh;
 
     .title {
         color: var(--primary);
@@ -44,8 +46,17 @@ export const ResumeContainer = styled.aside`
 export const ResumeImage = styled.img`
     width: 246px;
     height: 246px;
+    object-fit: cover;
     border-radius: 50%;
     position: absolute;
     top: 48px;
     right: 75px;
+    z-index: 10;
+    background-color: white;
+`;
+
+export const BreakingLine = styled.hr`
+    border: 1px solid var(--border);
+    width: 100%;
+    margin-block: 1rem;
 `;

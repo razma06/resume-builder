@@ -1,6 +1,7 @@
 import Add from "@/pages/add/Add";
 import ExperienceForm from "@/pages/experiencePage/ExperienceForm";
-import GeneralInfoForm from "@/pages/generalInfoForm/GeneralInfoForm";
+import ExperiencePage from "@/pages/experiencePage/ExperiencePage";
+import GeneralInfoForm from "@/pages/generalInfoPage/GeneralInfoForm";
 import Home from "@/pages/home/Home";
 import { createBrowserRouter } from "react-router-dom";
 
@@ -19,7 +20,11 @@ const routes = createBrowserRouter([
             },
             {
                 path: "2",
-                element: <ExperienceForm />,
+                element: <ExperiencePage />,
+            },
+            {
+                path: "3",
+                element: <ExperiencePage />,
             },
         ],
     },

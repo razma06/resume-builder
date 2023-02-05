@@ -2,10 +2,9 @@ import { Flex } from "@/components/library/Flex.styled";
 import styled from "styled-components";
 
 export const HeaderContainer = styled(Flex)`
-    border-bottom: 2px solid var(--heading);
+    border-bottom: 1px solid var(--heading);
     padding-bottom: 0.75rem;
     margin-bottom: 77px;
-    /* position: relative; */
 `;
 
 export const HeaderStepName = styled.h1`

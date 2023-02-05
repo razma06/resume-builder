@@ -1,3 +1,7 @@
+#root {
+    background-color: var(--form-bg);
+}
+
 button {
     border: none;
     outline: none;

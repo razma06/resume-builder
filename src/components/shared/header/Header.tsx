@@ -1,17 +1,16 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import {
     HeaderContainer,
     HeaderStepName,
     HeaderStepNumber,
 } from "./Header.styled";
 import BackButton from "@/assets/icons/back-button.svg";
+import { headerTitles } from "@/globals/globalData";
 
-interface HeaderProps {
-    stepName: string;
-    stepNumber: string;
-}
-
-const Header: React.FC<HeaderProps> = ({ stepName, stepNumber }) => {
+const Header = () => {
+    const location = useLocation();
+    const step = location.pathname[location.pathname.length - 1] || "1";
+    const stepName = headerTitles[step];
     return (
         <HeaderContainer justifyContent="space-between">
             <Link
@@ -21,7 +20,7 @@ const Header: React.FC<HeaderProps> = ({ stepName, stepNumber }) => {
                 <img src={BackButton} alt="" />
             </Link>
             <HeaderStepName>{stepName}</HeaderStepName>
-            <HeaderStepNumber>{stepNumber}</HeaderStepNumber>
+            <HeaderStepNumber>{step}/3</HeaderStepNumber>
         </HeaderContainer>
     );
 };

@@ -11,18 +11,23 @@ export interface Experience {
 interface ExperienceStore {
     experience: Experience[];
     setExperience: (experience: Experience[]) => void;
+    addExperience: () => void;
 }
 
-export const useExperienceStore = create<ExperienceStore>((set) => ({
-    experience: [
-        {
-            position: "",
-            employer: "",
-            startDate: "",
-            endDate: "",
-            description: "",
-        },
-    ],
+const defaultExperience: Experience = {
+    position: "",
+    employer: "",
+    startDate: "",
+    endDate: "",
+    description: "",
+};
 
+export const useExperienceStore = create<ExperienceStore>((set) => ({
+    experience: [defaultExperience],
+    addExperience: () => {
+        set((state) => ({
+            experience: [...state.experience, defaultExperience],
+        }));
+    },
     setExperience: (experience) => set({ experience }),
 }));
