@@ -55,6 +55,18 @@ export const Input = styled.input`
     }
 `;
 
+export const InputContainer = styled.div`
+    position: relative;
+    width: 100%;
+
+    img {
+        position: absolute;
+        top: 50%;
+        right: 15px;
+        transform: translate(0, -50%);
+    }
+`;
+
 export const TextArea = styled.textarea`
     width: 100%;
     border-radius: 4px;
@@ -85,3 +97,10 @@ export const InputFieldHint = styled.p`
     font-weight: 300;
     color: var(--secondary);
 `;
+
+export const ErrorImage = styled.img`
+    right: -12px;
+    translate: translate(0, -50%);
+`;
+
+export const SuccessImage = styled.img``;

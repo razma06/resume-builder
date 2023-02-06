@@ -3,18 +3,18 @@ import MailIcon from "@/assets/icons/mail.svg";
 import PhoneIcon from "@/assets/icons/phone.svg";
 import { Flex } from "@/components/library/Flex.styled";
 import { ResumeImage } from "./Resume.styled";
+import Description from "../descriptionContainer/DescriptionContainer";
 
 const GeneralInfoSection = () => {
     const generalInfo = useGeneralInfoStore((state) => state.generalInfo);
-
     return (
         <section>
             <h2 className="title">
                 {generalInfo.name} {generalInfo.secondName}
             </h2>
-            {generalInfo.idImage[0] && (
+            {generalInfo.idImage && (
                 <ResumeImage
-                    src={URL.createObjectURL(generalInfo.idImage[0])}
+                    src={(generalInfo.idImage as string) || ""}
                     alt=""
                 ></ResumeImage>
             )}
@@ -26,18 +26,19 @@ const GeneralInfoSection = () => {
                     </div>
                 ) : null}
                 {generalInfo.phone ? (
-                    <div className="contact">
+                    <div className="contact" style={{ marginBottom: "34px" }}>
                         <img src={PhoneIcon} alt="" />
                         <p>{generalInfo.phone}</p>
                     </div>
                 ) : null}
             </Flex>
-            {generalInfo.aboutMe ? (
-                <div style={{ maxWidth: "432px" }}>
-                    <h3 className="small-title">ჩემ შესახებ</h3>
-                    <p className="description">{generalInfo.aboutMe}</p>
-                </div>
-            ) : null}
+            {generalInfo.aboutMe && true && (
+                <Description
+                    style={{ maxWidth: "432px" }}
+                    title="ჩემ შესახებ"
+                    descriptionText={generalInfo.aboutMe}
+                />
+            )}
         </section>
     );
 };

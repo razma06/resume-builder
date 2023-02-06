@@ -5,27 +5,24 @@ export const ResumeContainer = styled.aside`
     padding: 68px 80px;
     background-color: white;
     min-height: 100vh;
+    position: relative;
+
+    &::after {
+        content: "";
+        width: 310px;
+        height: 320px;
+        background-color: white;
+        position: absolute;
+        top: 0;
+        right: 0;
+    }
 
     .title {
         color: var(--primary);
         font-size: 34px;
         font-weight: 700;
         word-spacing: 20px;
-        margin-bottom: 17px;
-    }
-
-    .small-title {
-        color: var(--primary);
-        font-size: 18px;
-        margin-bottom: 15px;
-        margin-top: 24px;
-    }
-
-    .description {
-        color: black;
-        font-size: 1rem;
-        font-weight: 400;
-        line-height: 22px;
+        margin-bottom: 20px;
     }
 
     .contact {
@@ -56,7 +53,8 @@ export const ResumeImage = styled.img`
 `;
 
 export const BreakingLine = styled.hr`
-    border: 1px solid var(--border);
+    border: none;
+    border-bottom: 1px solid var(--border);
     width: 100%;
     margin-block: 1rem;
 `;

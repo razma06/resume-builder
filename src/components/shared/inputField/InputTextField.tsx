@@ -1,5 +1,10 @@
 import React from "react";
-import { UseFormRegisterReturn } from "react-hook-form";
+import {
+    Control,
+    Controller,
+    FieldValues,
+    UseFormRegisterReturn,
+} from "react-hook-form";
 import {
     InputFieldContainer,
     InputFieldHint,
@@ -13,35 +18,65 @@ interface InputTextFieldProps {
     hint?: string;
     isError?: boolean;
     isSuccess?: boolean;
-    register: UseFormRegisterReturn<string>;
+    name: string;
+    control: Control<FieldValues>;
+    setValue: (...args: any) => void;
+    validation: any;
     rows: number;
     cols: number;
     value?: any;
+    n?: number;
 }
 
 const InputTextField: React.FC<InputTextFieldProps> = ({
     label,
     placeholder,
     hint,
+    control,
+    name,
     isError,
     isSuccess,
-    register,
+    setValue,
+    validation,
     rows,
     cols,
     value,
+    n,
 }) => {
     return (
-        <InputFieldContainer isError={isError} isSuccess={isSuccess}>
-            <InputFieldLabel>{label}</InputFieldLabel>
-            <TextArea
-                rows={rows}
-                cols={cols}
-                placeholder={placeholder}
-                {...register}
-                value={value}
-            />
-            {hint ? <InputFieldHint>{hint}</InputFieldHint> : null}
-        </InputFieldContainer>
+        <Controller
+            name={name}
+            control={control}
+            defaultValue={value}
+            rules={{
+                onChange(e) {
+                    if (n !== undefined) {
+                        setValue(
+                            name,
+                            e.target.value,
+                            n,
+                            control._formState.isValid
+                        );
+                    } else {
+                        setValue(name, e.target.value);
+                    }
+                },
+                ...validation,
+            }}
+            render={({ field }) => (
+                <InputFieldContainer isError={isError} isSuccess={isSuccess}>
+                    <InputFieldLabel>{label}</InputFieldLabel>
+                    <TextArea
+                        {...field}
+                        rows={rows}
+                        cols={cols}
+                        placeholder={placeholder}
+                        value={value}
+                    />
+                    {hint ? <InputFieldHint>{hint}</InputFieldHint> : null}
+                </InputFieldContainer>
+            )}
+        />
     );
 };
 

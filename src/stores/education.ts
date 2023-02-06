@@ -2,10 +2,13 @@ import { getDegrees } from "@/services/getDegrees";
 import { create } from "zustand";
 
 export interface Education {
-    school: string;
-    degree: string;
-    endDate: string;
-    description: string;
+    isValid: boolean;
+    data: {
+        school: string;
+        degree: { title: string; id: number };
+        endDate: string;
+        description: string;
+    };
 }
 
 export interface Degree {
@@ -15,31 +18,68 @@ export interface Degree {
 
 interface EducationStore {
     education: Education[];
-    setEducation: (education: Education[]) => void;
+    setEducation: (
+        name: string,
+        value: any,
+        n: number,
+        isValid: boolean
+    ) => void;
     addEducation: () => void;
     getDegreesData: () => void;
     degree: Degree;
 }
 
-const defaultEdication: Education = {
-    school: "",
-    degree: "",
-    endDate: "",
-    description: "",
+const emptyEducation: Education = {
+    isValid: false,
+    data: {
+        school: "",
+        degree: { title: "", id: 0 },
+        endDate: "",
+        description: "",
+    },
 };
 
+const defaultEducation = JSON.parse(
+    localStorage.getItem("education") || `[${JSON.stringify(emptyEducation)}]`
+);
+
 export const useEducationStore = create<EducationStore>((set) => ({
-    education: [defaultEdication],
+    education: defaultEducation,
     addEducation: () => {
         set((state) => ({
-            education: [...state.education, defaultEdication],
+            education: [
+                ...state.education,
+                { ...emptyEducation, isValid: true },
+            ],
         }));
     },
     degree: {
         error: false,
         data: [],
     },
-    setEducation: (education) => set({ education }),
+    setEducation: (name, value, n, isValid) => {
+        set((state) => {
+            const newData = {
+                education: [
+                    ...state.education.slice(0, n),
+                    {
+                        isValid,
+                        data: {
+                            ...state.education[n].data,
+                            [name]: value,
+                        },
+                    },
+                    ...state.education.slice(n + 1),
+                ],
+            };
+            console.log(newData);
+            localStorage.setItem(
+                "education",
+                JSON.stringify(newData.education)
+            );
+            return newData;
+        });
+    },
     async getDegreesData() {
         try {
             const response = await getDegrees();

@@ -6,22 +6,40 @@ export interface GeneralInfo {
     email: string;
     phone: string;
     aboutMe?: string;
-    idImage: FileList;
+    idImage: string | FileList | undefined;
 }
 
 export interface GeneralInfoStore {
     generalInfo: GeneralInfo;
-    setGeneralInfo: (generalInfo: GeneralInfo) => void;
+    setGeneralInfo: (name: string, value: any) => void;
 }
 
+const emptyGeneralInfo = {
+    name: "",
+    secondName: "",
+    email: "",
+    phone: "",
+    aboutMe: "",
+    idImage: "",
+};
+
+const defaultGeneralInfo = JSON.parse(
+    localStorage.getItem("generalInfo") || JSON.stringify(emptyGeneralInfo)
+);
+
 export const useGeneralInfoStore = create<GeneralInfoStore>((set) => ({
-    generalInfo: {
-        name: "",
-        secondName: "",
-        email: "",
-        phone: "",
-        aboutMe: "",
-        idImage: {} as FileList,
+    generalInfo: defaultGeneralInfo,
+    setGeneralInfo: (name, value) => {
+        set((state) => {
+            const newGeneralInfo = {
+                generalInfo: { ...state.generalInfo, [name]: value },
+            };
+
+            localStorage.setItem(
+                "generalInfo",
+                JSON.stringify(newGeneralInfo.generalInfo)
+            );
+            return newGeneralInfo;
+        });
     },
-    setGeneralInfo: (generalInfo: GeneralInfo) => set({ generalInfo }),
 }));

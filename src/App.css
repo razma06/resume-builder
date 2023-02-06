@@ -29,34 +29,6 @@ textarea {
 input[type="submit"] {
     cursor: pointer;
 }
-
-.file-input {
-    color: transparent;
-    display: flex;
-    height: 27px;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-}
-
-.file-input::-webkit-file-upload-button {
-    visibility: hidden;
-}
-
-.file-input::before {
-    content: "ატვირთვა";
-    width: 107px;
-    height: 27px;
-    color: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: var(--upload-button);
-    border-radius: 4px;
-    outline: none;
-    white-space: nowrap;
-    -webkit-user-select: none;
-    cursor: pointer;
-    font-weight: 400;
-    font-size: 14px;
+.file-error {
+    color: var(--error);
 }

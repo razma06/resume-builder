@@ -1,12 +1,11 @@
 import { useExperienceStore } from "@/stores/experience";
 import React, { useEffect, useState } from "react";
+import Description from "../descriptionContainer/DescriptionContainer";
 import { BreakingLine } from "./Resume.styled";
 
 const ExperienceSection = () => {
     const experience = useExperienceStore((state) => state.experience);
-    useEffect(() => {
-        console.log(experience);
-    }, [experience]);
+    useEffect(() => {}, [experience]);
 
     return (
         <section>
@@ -18,18 +17,20 @@ const ExperienceSection = () => {
             )}
             {experience.map((e, i) => {
                 return (
-                    <div key={i}>
-                        {i > 0 && <BreakingLine />}
-                        <article>
-                            <span>{e.position}</span>
-                            {e.employer && <span>, {e.employer}</span>}
-                        </article>
-                        <article>
-                            <span>{e.startDate}</span>
-                            <span>{e.endDate}</span>
-                        </article>
-                        <p className="description">{e.description}</p>
-                    </div>
+                    <Description
+                        key={i}
+                        title="გამოცდილება"
+                        wantLine={true}
+                        wantTitle={i === 0}
+                        descriptionText={e.data.description}
+                        detailTitle={
+                            e.data.employer
+                                ? e.data.position + ", " + e.data.employer
+                                : e.data.position
+                        }
+                        endDate={e.data.endDate}
+                        stratDate={e.data.startDate}
+                    />
                 );
             })}
         </section>

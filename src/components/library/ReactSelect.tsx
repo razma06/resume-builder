@@ -1,5 +1,4 @@
 import React from "react";
-import SelectType from "react-select/dist/declarations/src/Select";
 import Select, { GroupBase, Props } from "react-select";
 
 interface SelectProps<
@@ -8,40 +7,53 @@ interface SelectProps<
     Group extends GroupBase<Option> = GroupBase<Option>
 > {}
 
-const ReactSelect = React.forwardRef((props: Props<SelectProps>, ref: any) => {
-    const colorStyles = {
-        control: (styles: any, { isFocused, isSelected }: any) => ({
-            ...styles,
-            backgroundColor: "white",
-            height: "48px",
-            marginTop: "8px",
-            boxShadow: "none",
-            shadow: "none",
-            outline: "none",
-            borderColor: "var(--border)",
-            border: isSelected
-                ? "2px solid var(--border)"
-                : "1px solid var(--border)",
-        }),
-        option: (
-            styles: any,
-            { data, isDisabled, isFocused, isSelected }: any
-        ) => {
-            return {
+interface SelectType<SelectProps> extends Props {
+    isError?: boolean;
+    isSuccess?: boolean;
+}
+
+const ReactSelect = React.forwardRef(
+    (props: SelectType<SelectProps>, ref: any) => {
+        const colorStyles = {
+            control: (styles: any, { isFocused, isSelected }: any) => ({
                 ...styles,
-                backgroundColor: isDisabled
-                    ? null
-                    : isSelected
-                    ? "white"
-                    : isFocused
-                    ? "#000"
-                    : null,
-                color: isDisabled ? "#ccc" : isSelected ? "black" : data.color,
-                cursor: isDisabled ? "not-allowed" : "default",
-            };
-        },
-    };
-    return <Select ref={ref} {...props} styles={colorStyles} />;
-});
+                backgroundColor: "white",
+                height: "48px",
+                marginTop: "8px",
+                boxShadow: "none",
+                shadow: "none",
+                outline: "none",
+                borderColor: props.isError
+                    ? "var(--error)"
+                    : props.isSuccess
+                    ? "var(--success)"
+                    : "var(--border)",
+                borderWidth: isFocused ? "2px" : "1px",
+            }),
+            option: (
+                styles: any,
+                { data, isDisabled, isFocused, isSelected }: any
+            ) => {
+                return {
+                    ...styles,
+                    backgroundColor: isDisabled
+                        ? null
+                        : isSelected
+                        ? "white"
+                        : isFocused
+                        ? "#000"
+                        : null,
+                    color: isDisabled
+                        ? "#ccc"
+                        : isSelected
+                        ? "black"
+                        : data.color,
+                    cursor: isDisabled ? "not-allowed" : "default",
+                };
+            },
+        };
+        return <Select ref={ref} {...props} styles={colorStyles} />;
+    }
+);
 
 export default ReactSelect;

@@ -6,30 +6,29 @@ import {
     nameValidation,
     jobDescriptionValidation,
     dateValidation,
+    jobTitleValidation,
 } from "@/utils/validators";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 
-const EducationForm = () => {
+const EducationForm = ({ n }: { n: number }) => {
     const getDegreesData = useEducationStore((state) => state.getDegreesData);
     const degreeData = useEducationStore((state) => state.degree);
+    const education = useEducationStore((state) => state.education);
+    const setEducation = useEducationStore((state) => state.setEducation);
     const {
         register,
         control,
-        handleSubmit,
         watch,
-        formState: { errors, dirtyFields },
+        trigger,
+        formState: { errors, dirtyFields, isValid },
     } = useForm({ mode: "onChange" });
-
-    const onChange = () => {
-        const values = watch();
-        console.log(values);
-    };
 
     useEffect(() => {
         getDegreesData();
+
+        trigger();
     }, []);
-    console.log(degreeData);
 
     return (
         <Flex
@@ -38,16 +37,19 @@ const EducationForm = () => {
             flexDirection="column"
             rowGap="25px"
             width="100%"
-            onChange={onChange}
         >
             <InputField
                 type="text"
                 label="სასწავლებელი"
                 placeholder="სასწავლებელი"
                 hint="მინიმუმ 2 სიმბოლო"
-                register={register("school", nameValidation)}
-                isError={errors.school && true}
-                isSuccess={!errors.school && dirtyFields.school}
+                name="school"
+                control={control}
+                setValue={setEducation}
+                value={education[n].data.school}
+                validation={jobTitleValidation}
+                dirtyFields={dirtyFields}
+                n={n}
             />
             <Flex columnGap="56px" width="100%">
                 <InputField
@@ -57,17 +59,23 @@ const EducationForm = () => {
                     options={degreeData.data}
                     placeholder="აირჩიეთ ხარისხი"
                     name="degree"
+                    value={education[n].data.degree}
                     control={control}
-                    isError={errors.degree && true}
-                    isSuccess={!errors.degree && dirtyFields.degree}
+                    setValue={setEducation}
+                    dirtyFields={dirtyFields}
+                    n={n}
                 />
                 <InputField
                     type="date"
                     label="დამთავრების რიცხვი"
                     placeholder="ანზორ"
-                    register={register("endDate", dateValidation)}
-                    isError={errors.endDate && true}
-                    isSuccess={!errors.endDate && dirtyFields.endDate}
+                    control={control}
+                    setValue={setEducation}
+                    dirtyFields={dirtyFields}
+                    name="endDate"
+                    validation={dateValidation}
+                    value={education[n].data.endDate}
+                    n={n}
                 />
             </Flex>
             <InputTextField
@@ -75,9 +83,16 @@ const EducationForm = () => {
                 cols={5}
                 label="აღწერა"
                 placeholder="განათლების აღწერა"
-                register={register("description", jobDescriptionValidation)}
+                control={control}
+                setValue={setEducation}
+                name="description"
+                validation={jobDescriptionValidation}
+                n={n}
                 isError={errors.description && true}
-                isSuccess={!errors.description && dirtyFields.description}
+                isSuccess={
+                    !errors.description && !!education[n].data.description
+                }
+                value={education[n].data.description}
             />
         </Flex>
     );

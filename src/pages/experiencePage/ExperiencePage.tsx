@@ -2,9 +2,10 @@ import { Button } from "@/components/library/Button";
 import { Flex } from "@/components/library/Flex.styled";
 import PagebackButton from "@/components/shared/pageNavButton/PageBackButton";
 import PageNavButton from "@/components/shared/pageNavButton/PageNavButton";
+import { PageNavButtonStyled } from "@/components/shared/pageNavButton/PageNavButton.styled";
 import { useExperienceStore } from "@/stores/experience";
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { FormEvent, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import ExperienceForm from "./ExperienceForm";
 
 const ExperiencePage = () => {
@@ -13,10 +14,21 @@ const ExperiencePage = () => {
     const [experienceNumber, setExperienceNumber] = useState<number[]>([
         ...Array(experience.length).keys(),
     ]);
+    const nav = useNavigate();
 
-    const clickHandler = () => {
+    const addClickHandler = () => {
         addExperience();
         setExperienceNumber([...experienceNumber, experienceNumber.length]);
+    };
+
+    const nextClickHandler = () => {
+        document.querySelectorAll("form").forEach((form) => {
+            form.dispatchEvent(new Event("submit"));
+        });
+
+        if (experience.every((exp) => exp.isValid == true)) {
+            nav("/add/3");
+        }
     };
 
     return (
@@ -24,15 +36,19 @@ const ExperiencePage = () => {
             {experienceNumber.map((n) => (
                 <ExperienceForm key={n} n={n} />
             ))}
-            <Button onClick={clickHandler}>მეტი გამოცდილების დამატება</Button>
+            <Button onClick={addClickHandler}>
+                მეტი გამოცდილების დამატება
+            </Button>
             <Flex
                 style={{ bottom: "0" }}
                 flexDirection="row-reverse"
-                position="absolute"
+                // position="absolute"
                 width="100%"
                 justifyContent="space-between"
             >
-                <PageNavButton value="შემდეგი" />
+                <PageNavButtonStyled onClick={nextClickHandler}>
+                    შემდეგი
+                </PageNavButtonStyled>
                 <Link to="/add/1">
                     <PagebackButton>უკან</PagebackButton>
                 </Link>
