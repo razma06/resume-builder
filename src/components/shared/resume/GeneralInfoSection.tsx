@@ -10,11 +10,11 @@ const GeneralInfoSection = () => {
     return (
         <section>
             <h2 className="title">
-                {generalInfo.name} {generalInfo.secondName}
+                {generalInfo.name} {generalInfo.surname}
             </h2>
-            {generalInfo.idImage && (
+            {generalInfo.image && (
                 <ResumeImage
-                    src={(generalInfo.idImage as string) || ""}
+                    src={(generalInfo.image as string) || ""}
                     alt=""
                 ></ResumeImage>
             )}
@@ -25,18 +25,18 @@ const GeneralInfoSection = () => {
                         <p>{generalInfo.email}</p>
                     </div>
                 ) : null}
-                {generalInfo.phone ? (
+                {generalInfo.phone_number ? (
                     <div className="contact" style={{ marginBottom: "34px" }}>
                         <img src={PhoneIcon} alt="" />
-                        <p>{generalInfo.phone}</p>
+                        <p>{generalInfo.phone_number}</p>
                     </div>
                 ) : null}
             </Flex>
-            {generalInfo.aboutMe && true && (
+            {generalInfo.about_me && true && (
                 <Description
                     style={{ maxWidth: "432px" }}
                     title="ჩემ შესახებ"
-                    descriptionText={generalInfo.aboutMe}
+                    descriptionText={generalInfo.about_me}
                 />
             )}
         </section>

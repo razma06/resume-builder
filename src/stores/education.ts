@@ -4,9 +4,9 @@ import { create } from "zustand";
 export interface Education {
     isValid: boolean;
     data: {
-        school: string;
+        institute: string;
         degree: { title: string; id: number };
-        endDate: string;
+        due_date: string;
         description: string;
     };
 }
@@ -32,9 +32,9 @@ interface EducationStore {
 const emptyEducation: Education = {
     isValid: false,
     data: {
-        school: "",
+        institute: "",
         degree: { title: "", id: 0 },
-        endDate: "",
+        due_date: "",
         description: "",
     },
 };
@@ -57,13 +57,13 @@ export const useEducationStore = create<EducationStore>((set) => ({
         error: false,
         data: [],
     },
-    setEducation: (name, value, n, isValid) => {
+    setEducation: (name, value, n) => {
         set((state) => {
             const newData = {
                 education: [
                     ...state.education.slice(0, n),
                     {
-                        isValid,
+                        ...state.education[n],
                         data: {
                             ...state.education[n].data,
                             [name]: value,

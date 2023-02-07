@@ -7,4 +7,13 @@ export const PageNavButtonStyled = styled.button`
     font-size: 1rem;
     color: white;
     background-color: var(--navigation-button);
+    transition-duration: 300ms;
+
+    &:hover {
+        background-color: #7949ff;
+    }
+
+    &:active {
+        background-color: #512faf;
+    }
 `;

@@ -1,12 +1,5 @@
-import GeneralInfoForm from "@/pages/generalInfoPage/GeneralInfoForm";
 import React from "react";
-import {
-    Control,
-    Controller,
-    FieldValues,
-    UseFormRegister,
-    UseFormSetValue,
-} from "react-hook-form";
+import { Control, Controller, FieldValues } from "react-hook-form";
 import {
     ErrorImage,
     Input,
@@ -54,7 +47,7 @@ const InputField: React.FC<InputFieldProps> = ({
         <Controller
             name={name}
             control={control}
-            defaultValue={value}
+            defaultValue={value.title !== undefined ? value.title : value}
             rules={{
                 onChange(e) {
                     if (n !== undefined) {
@@ -75,9 +68,9 @@ const InputField: React.FC<InputFieldProps> = ({
                         <ReactSelect
                             {...field}
                             isError={invalid}
-                            isSuccess={!invalid && value}
-                            value={field.value || value}
+                            isSuccess={!invalid && !!value.title}
                             placeholder={placeholder}
+                            value={field.value || value.title}
                             options={options}
                             getOptionLabel={(option: any) => option.title}
                         />
@@ -88,6 +81,7 @@ const InputField: React.FC<InputFieldProps> = ({
                                 value={field.value || value}
                                 placeholder={placeholder}
                                 type={type}
+                                maxLength={80}
                             />
                             {type == "text" &&
                                 (invalid ? (

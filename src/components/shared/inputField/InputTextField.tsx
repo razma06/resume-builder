@@ -72,6 +72,7 @@ const InputTextField: React.FC<InputTextFieldProps> = ({
                         cols={cols}
                         placeholder={placeholder}
                         value={value}
+                        maxLength={1000}
                     />
                     {hint ? <InputFieldHint>{hint}</InputFieldHint> : null}
                 </InputFieldContainer>

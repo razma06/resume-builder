@@ -9,7 +9,7 @@ export const ResumeContainer = styled.aside`
 
     &::after {
         content: "";
-        width: 310px;
+        width: 308px;
         height: 320px;
         background-color: white;
         position: absolute;

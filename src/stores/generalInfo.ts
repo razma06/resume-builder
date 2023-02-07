@@ -2,11 +2,11 @@ import { create } from "zustand";
 
 export interface GeneralInfo {
     name: string;
-    secondName: string;
+    surname: string;
     email: string;
-    phone: string;
-    aboutMe?: string;
-    idImage: string | FileList | undefined;
+    phone_number: string;
+    about_me?: string;
+    image: string | FileList | undefined;
 }
 
 export interface GeneralInfoStore {
@@ -16,11 +16,11 @@ export interface GeneralInfoStore {
 
 const emptyGeneralInfo = {
     name: "",
-    secondName: "",
+    surname: "",
     email: "",
-    phone: "",
-    aboutMe: "",
-    idImage: "",
+    phone_number: "",
+    about_me: "",
+    image: "",
 };
 
 const defaultGeneralInfo = JSON.parse(

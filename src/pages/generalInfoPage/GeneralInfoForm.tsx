@@ -32,12 +32,12 @@ const GeneralInfoForm = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        clearErrors("idImage");
+        clearErrors("image");
     }, []);
 
     const onSubmit: SubmitHandler<FieldValues> = () => {
-        if (!generalinfo.idImage?.length) {
-            setError("idImage", { type: "required" });
+        if (!generalinfo.image?.length) {
+            setError("image", { type: "required" });
         } else {
             if (Object.keys(errors).length > 0) return;
             navigate("/add/2");
@@ -72,10 +72,10 @@ const GeneralInfoForm = () => {
                     label="გვარი"
                     placeholder="მუმლაძე"
                     hint="მინიმუმ 2 ასო, ქართული ასოები"
-                    name="secondName"
+                    name="surname"
                     validation={nameValidation}
                     dirtyFields={dirtyFields}
-                    value={generalinfo.secondName}
+                    value={generalinfo.surname}
                     control={control}
                     setValue={setGeneralInfo}
                 />
@@ -83,22 +83,21 @@ const GeneralInfoForm = () => {
             <FileInput
                 errors={errors}
                 control={control}
-                name={"idImage"}
+                name={"image"}
                 setValue={setGeneralInfo}
-                value={generalinfo.idImage}
             />
             <InputTextField
                 control={control}
-                name="aboutMe"
+                name="about_me"
                 setValue={setGeneralInfo}
                 validation={aboutMeValidation}
                 label="ჩემ შესახებ (არასავალდებულო)"
                 placeholder="ზოგადი ინფო შენ შესახებ"
                 rows={5}
                 cols={20}
-                isSuccess={!errors.aboutMe && !!generalinfo.aboutMe}
+                isSuccess={!errors.aboutMe && !!generalinfo.about_me}
                 isError={errors.aboutMe && true}
-                value={generalinfo.aboutMe}
+                value={generalinfo.about_me}
             />
 
             <InputField
@@ -118,10 +117,10 @@ const GeneralInfoForm = () => {
                 label="მობილურის ნომერი"
                 placeholder="+995 551 12 34 56"
                 hint="უნდა აკმაყოფილებდეს ქართული მობულური ნომრის ფორმატს"
-                name="phone"
+                name="phone_number"
                 validation={phoneValidation}
                 dirtyFields={dirtyFields}
-                value={generalinfo.phone}
+                value={generalinfo.phone_number}
                 control={control}
                 setValue={setGeneralInfo}
             />

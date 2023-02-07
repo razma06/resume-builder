@@ -8,10 +8,11 @@ import {
     jobTitleValidation,
     nameValidation,
 } from "@/utils/validators";
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 
-const ExperienceForm = ({ n }: { n: number }) => {
+const ExperienceForm = React.forwardRef(({ n }: { n: number }, ref: any) => {
     const {
         register,
         handleSubmit,
@@ -22,32 +23,19 @@ const ExperienceForm = ({ n }: { n: number }) => {
     } = useForm({ mode: "onChange" });
     const experience = useExperienceStore((state) => state.experience);
     const setExperience = useExperienceStore((state) => state.setExperience);
-
-    const onChange = () => {
-        // const values = watch();
-        // console.log(isValid);
-        // const { position, employer, startDate, endDate, description } = values;
-        // const newData = {
-        //     position,
-        //     employer,
-        //     startDate,
-        //     endDate,
-        //     description,
-        // };
-        // setExperience([
-        //     ...experience.slice(0, n),
-        //     { data: newData, isValid },
-        //     ...experience.slice(n + 1),
-        // ]);
-    };
+    const navigation = useNavigate();
 
     useEffect(() => {
-        trigger();
+        if (
+            Object.values(experience[n].data).every((value) => !value === false)
+        ) {
+            trigger();
+        }
     }, []);
 
     const submitHandler = (data: any, e: any) => {
-        e.preventDefault();
-        console.log(e);
+        console.log("submitted");
+        navigation("/add/3");
     };
 
     return (
@@ -57,8 +45,8 @@ const ExperienceForm = ({ n }: { n: number }) => {
             flexDirection="column"
             rowGap="25px"
             width="100%"
-            onChange={onChange}
             onSubmit={handleSubmit(submitHandler)}
+            ref={ref}
         >
             <InputField
                 label="თანამდებობა"
@@ -91,10 +79,10 @@ const ExperienceForm = ({ n }: { n: number }) => {
                     type="date"
                     label="დაწყების რიცხვი"
                     placeholder="ანზორ"
-                    value={experience[n].data.startDate}
+                    value={experience[n].data.start_date}
                     control={control}
                     setValue={setExperience}
-                    name="startDate"
+                    name="start_date"
                     validation={dateValidation}
                     dirtyFields={dirtyFields}
                     n={n}
@@ -103,10 +91,10 @@ const ExperienceForm = ({ n }: { n: number }) => {
                     type="date"
                     label="დამთავრების რიცხვი"
                     placeholder="მუმლაძე"
-                    value={experience[n].data.endDate}
+                    value={experience[n].data.end_date}
                     setValue={setExperience}
                     control={control}
-                    name="endDate"
+                    name="end_date"
                     validation={dateValidation}
                     dirtyFields={dirtyFields}
                     n={n}
@@ -130,6 +118,6 @@ const ExperienceForm = ({ n }: { n: number }) => {
             />
         </Flex>
     );
-};
+});
 
 export default ExperienceForm;

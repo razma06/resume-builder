@@ -12,7 +12,6 @@ import {
 interface FileInputProps {
     control: Control<FieldValues, any>;
     name: string;
-    value?: any;
     errors: any;
     setValue: (...args: any) => void;
 }
@@ -20,7 +19,6 @@ interface FileInputProps {
 const FileInput: React.FC<FileInputProps> = ({
     control,
     name,
-    value,
     errors,
     setValue,
 }) => {
@@ -28,7 +26,6 @@ const FileInput: React.FC<FileInputProps> = ({
         const reader = new FileReader();
 
         reader.onload = () => {
-            console.log(reader.result);
             setValue(name, reader.result as string);
         };
 
@@ -47,7 +44,6 @@ const FileInput: React.FC<FileInputProps> = ({
                 control={control}
                 rules={{
                     onChange(e) {
-                        console.log(e);
                         fileChange(e.target.value);
                     },
                 }}
@@ -59,7 +55,7 @@ const FileInput: React.FC<FileInputProps> = ({
                             type="file"
                             accept=".jpg , .jpeg, .png"
                         />
-                        {errors.idImage && (
+                        {errors.image && (
                             <span className="file-error">
                                 ფოტოს შეტანა აუცილებელია
                             </span>

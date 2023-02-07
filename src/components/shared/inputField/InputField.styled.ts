@@ -88,7 +88,7 @@ export const TextArea = styled.textarea`
 export const InputFieldLabel = styled.label`
     display: block;
     font-size: 1rem;
-    font-weight: 500;
+    font-weight: 700;
     color: var(--label);
 `;
 

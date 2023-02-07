@@ -8,27 +8,36 @@ import {
     dateValidation,
     jobTitleValidation,
 } from "@/utils/validators";
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 
-const EducationForm = ({ n }: { n: number }) => {
+const EducationForm = React.forwardRef(({ n }: { n: number }, ref: any) => {
     const getDegreesData = useEducationStore((state) => state.getDegreesData);
     const degreeData = useEducationStore((state) => state.degree);
     const education = useEducationStore((state) => state.education);
     const setEducation = useEducationStore((state) => state.setEducation);
     const {
-        register,
         control,
-        watch,
         trigger,
-        formState: { errors, dirtyFields, isValid },
+        handleSubmit,
+        formState: { errors, dirtyFields },
     } = useForm({ mode: "onChange" });
+    const navigation = useNavigate();
 
     useEffect(() => {
         getDegreesData();
 
-        trigger();
+        if (
+            Object.values(education[n].data).every((value) => !value === false)
+        ) {
+            trigger();
+        }
     }, []);
+
+    const submitHandler = (data: any, e: any) => {
+        navigation("/");
+    };
 
     return (
         <Flex
@@ -37,16 +46,18 @@ const EducationForm = ({ n }: { n: number }) => {
             flexDirection="column"
             rowGap="25px"
             width="100%"
+            ref={ref}
+            onSubmit={handleSubmit(submitHandler)}
         >
             <InputField
                 type="text"
                 label="სასწავლებელი"
                 placeholder="სასწავლებელი"
                 hint="მინიმუმ 2 სიმბოლო"
-                name="school"
+                name="institute"
                 control={control}
                 setValue={setEducation}
-                value={education[n].data.school}
+                value={education[n].data.institute}
                 validation={jobTitleValidation}
                 dirtyFields={dirtyFields}
                 n={n}
@@ -64,6 +75,7 @@ const EducationForm = ({ n }: { n: number }) => {
                     setValue={setEducation}
                     dirtyFields={dirtyFields}
                     n={n}
+                    validation={dateValidation}
                 />
                 <InputField
                     type="date"
@@ -72,9 +84,9 @@ const EducationForm = ({ n }: { n: number }) => {
                     control={control}
                     setValue={setEducation}
                     dirtyFields={dirtyFields}
-                    name="endDate"
+                    name="due_date"
                     validation={dateValidation}
-                    value={education[n].data.endDate}
+                    value={education[n].data.due_date}
                     n={n}
                 />
             </Flex>
@@ -96,6 +108,6 @@ const EducationForm = ({ n }: { n: number }) => {
             />
         </Flex>
     );
-};
+});
 
 export default EducationForm;

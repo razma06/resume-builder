@@ -5,8 +5,8 @@ export interface Experience {
     data: {
         position: string;
         employer: string;
-        startDate: string;
-        endDate: string;
+        start_date: string;
+        end_date: string;
         description: string;
     };
 }
@@ -27,8 +27,8 @@ const emptyExperience: Experience = {
     data: {
         position: "",
         employer: "",
-        startDate: "",
-        endDate: "",
+        start_date: "",
+        end_date: "",
         description: "",
     },
 };
@@ -47,13 +47,13 @@ export const useExperienceStore = create<ExperienceStore>((set) => ({
             ],
         }));
     },
-    setExperience: (name, value, n, isValid) => {
+    setExperience: (name, value, n) => {
         set((state) => {
             const newExperience = {
                 experience: [
                     ...state.experience.slice(0, n),
                     {
-                        isValid,
+                        ...state.experience[n],
                         data: {
                             ...state.experience[n].data,
                             [name]: value,

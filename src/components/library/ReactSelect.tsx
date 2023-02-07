@@ -32,25 +32,31 @@ const ReactSelect = React.forwardRef(
             }),
             option: (
                 styles: any,
-                { data, isDisabled, isFocused, isSelected }: any
+                { data, isDisabled, isFocused, isSelected, isActive }: any
             ) => {
                 return {
                     ...styles,
                     backgroundColor: isDisabled
                         ? null
+                        : isFocused
+                        ? "#C3DCEE"
                         : isSelected
                         ? "white"
-                        : isFocused
-                        ? "#000"
-                        : null,
+                        : isActive
+                        ? "red"
+                        : "white",
                     color: isDisabled
                         ? "#ccc"
                         : isSelected
                         ? "black"
                         : data.color,
-                    cursor: isDisabled ? "not-allowed" : "default",
+                    cursor: isDisabled ? "not-allowed" : "pointer",
                 };
             },
+            menu: (base: any) => ({
+                ...base,
+                boxShadow: "0px 16px 28px rgba(0, 0, 0, 0.24)",
+            }),
         };
         return <Select ref={ref} {...props} styles={colorStyles} />;
     }

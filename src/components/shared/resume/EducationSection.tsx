@@ -23,13 +23,13 @@ const EducationSection = () => {
                         wantTitle={i === 0}
                         descriptionText={education.data.description}
                         detailTitle={
-                            education.data.school
-                                ? education.data.school +
+                            education.data.institute
+                                ? education.data.institute +
                                   ", " +
                                   education.data.degree.title
                                 : education.data.degree.title
                         }
-                        endDate={education.data.endDate}
+                        endDate={education.data.due_date}
                     />
                 );
             })}

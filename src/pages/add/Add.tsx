@@ -3,9 +3,8 @@ import { FormContainer } from "@/components/shared/formContainer/FormContainer.s
 import Header from "@/components/shared/header/Header";
 import Resume from "@/components/shared/resume/Resume";
 import GeneralInfoForm from "@/pages/generalInfoPage/GeneralInfoForm";
-import { Route, Router, Routes } from "react-router-dom";
+import { Route, Routes, useLocation } from "react-router-dom";
 import EducationPage from "../educationPage/EducationPage";
-import ExperienceForm from "../experiencePage/ExperienceForm";
 import ExperiencePage from "../experiencePage/ExperiencePage";
 
 const Add = () => {

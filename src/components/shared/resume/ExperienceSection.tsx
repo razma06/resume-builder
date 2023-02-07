@@ -28,8 +28,8 @@ const ExperienceSection = () => {
                                 ? e.data.position + ", " + e.data.employer
                                 : e.data.position
                         }
-                        endDate={e.data.endDate}
-                        stratDate={e.data.startDate}
+                        endDate={e.data.end_date}
+                        stratDate={e.data.start_date}
                     />
                 );
             })}
