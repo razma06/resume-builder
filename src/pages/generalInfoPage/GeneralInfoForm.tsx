@@ -52,6 +52,7 @@ const GeneralInfoForm = () => {
             flexDirection="column"
             rowGap="25px"
             width="100%"
+            height="100%"
             minHeight="75vh"
         >
             <Flex columnGap="56px" width="100%">

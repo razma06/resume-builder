@@ -43,7 +43,7 @@ const Description: React.FC<DescriptionProps> = ({
                             </DescriptionDetailTitle>
                             <DescriptionDate>
                                 {endDate && stratDate
-                                    ? `${stratDate}-${endDate}`
+                                    ? `${stratDate} - ${endDate}`
                                     : stratDate || endDate}
                             </DescriptionDate>
                         </>

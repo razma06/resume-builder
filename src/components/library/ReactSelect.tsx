@@ -18,6 +18,7 @@ const ReactSelect = React.forwardRef(
             control: (styles: any, { isFocused, isSelected }: any) => ({
                 ...styles,
                 backgroundColor: "white",
+                paddingInline: "7px",
                 height: "48px",
                 marginTop: "8px",
                 boxShadow: "none",
@@ -58,7 +59,16 @@ const ReactSelect = React.forwardRef(
                 boxShadow: "0px 16px 28px rgba(0, 0, 0, 0.24)",
             }),
         };
-        return <Select ref={ref} {...props} styles={colorStyles} />;
+        return (
+            <Select
+                components={{
+                    IndicatorSeparator: () => null,
+                }}
+                ref={ref}
+                {...props}
+                styles={colorStyles}
+            />
+        );
     }
 );
 

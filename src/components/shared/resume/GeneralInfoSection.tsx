@@ -34,7 +34,9 @@ const GeneralInfoSection = () => {
             </Flex>
             {generalInfo.about_me && true && (
                 <Description
-                    style={{ maxWidth: "432px" }}
+                    style={{
+                        maxWidth: "432px",
+                    }}
                     title="ჩემ შესახებ"
                     descriptionText={generalInfo.about_me}
                 />

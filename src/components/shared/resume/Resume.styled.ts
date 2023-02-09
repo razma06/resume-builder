@@ -56,5 +56,5 @@ export const BreakingLine = styled.hr`
     border: none;
     border-bottom: 1px solid var(--border);
     width: 100%;
-    margin-block: 1rem;
+    margin-block: 2rem 1.625rem;
 `;

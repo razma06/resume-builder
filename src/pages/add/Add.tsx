@@ -9,7 +9,7 @@ import ExperiencePage from "../experiencePage/ExperiencePage";
 
 const Add = () => {
     return (
-        <Flex width="100%" height="100vh" justifyContent="space-between">
+        <Flex width="100%" justifyContent="space-between">
             <FormContainer>
                 <Header />
                 <Routes>
