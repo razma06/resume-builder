@@ -7,7 +7,6 @@ const EducationSection = () => {
     const education = useEducationStore((state) => state.education);
     const degree = useEducationStore((state) => state.degree);
 
-    console.log(education[0]);
     return (
         <section>
             {education.length === 0 && (
@@ -27,14 +26,18 @@ const EducationSection = () => {
                         detailTitle={
                             education.institute
                                 ? education.institute +
-                                      ", " +
-                                      degree.data.find(
-                                          (val) =>
-                                              val.id === education.degree_id
-                                      )?.title || education.degree
-                                : degree.data.find(
+                                  ", " +
+                                  (!education.degree
+                                      ? degree.data.find(
+                                            (val) =>
+                                                val.id === education.degree_id
+                                        )?.title
+                                      : education.degree)
+                                : !education.degree
+                                ? degree.data.find(
                                       (val) => val.id === education.degree_id
-                                  )?.title || education.degree
+                                  )?.title
+                                : education.degree
                         }
                         endDate={education.due_date}
                     />

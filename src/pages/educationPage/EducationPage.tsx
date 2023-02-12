@@ -23,8 +23,10 @@ const EducationPage = () => {
     const [forms, setForms] = useState<
         React.MutableRefObject<HTMLFormElement>[]
     >(
-        new Array(education.length).fill(
-            useRef() as React.MutableRefObject<HTMLFormElement>
+        Array.from(
+            { length: education.length },
+            (_, i) =>
+                React.createRef() as React.MutableRefObject<HTMLFormElement>
         )
     );
     const navigate = useNavigate();
@@ -44,8 +46,8 @@ const EducationPage = () => {
     const addClickHandler = () => {
         addEducation();
         setForms([
-            ...forms,
             React.createRef() as React.MutableRefObject<HTMLFormElement>,
+            ...forms,
         ]);
         setEducationNumber([...educationNumber, educationNumber.length]);
     };

@@ -4,8 +4,9 @@ export const ResumeContainer = styled.aside<{ built?: boolean }>`
     width: 822px;
     padding: 68px 80px 120px 80px;
     background-color: white;
-    min-height: 100vh;
+    min-height: min(1080px, 100vh);
     position: relative;
+    overflow-y: auto;
 
     ${({ built }) =>
         built &&
@@ -30,7 +31,9 @@ export const ResumeContainer = styled.aside<{ built?: boolean }>`
         font-weight: 700;
         word-spacing: 20px;
         margin-bottom: 20px;
-        max-width: 470px;
+        max-width: 420px;
+        word-wrap: break-word;
+        word-break: break-word;
     }
 
     .contact {

@@ -2,12 +2,14 @@ import { Flex } from "@/components/library/Flex.styled";
 import InputField from "@/components/shared/inputField/InputField";
 import InputTextField from "@/components/shared/inputField/InputTextField";
 import { emptyExperience, useExperienceStore } from "@/stores/experience";
+import { fieldsAreEmpty } from "@/utils/helpers";
 import {
     dateValidation,
     jobDescriptionValidation,
     jobTitleValidation,
     nameValidation,
 } from "@/utils/validators";
+import { motion } from "framer-motion";
 import React, { Dispatch, SetStateAction, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
@@ -38,12 +40,10 @@ const ExperienceForm = React.forwardRef(
         const navigation = useNavigate();
 
         useEffect(() => {
-            if (
-                Object.values(experience[n]).every((value) => !value === false)
-            ) {
-                trigger();
-            } else {
+            if (fieldsAreEmpty(experience[n])) {
                 clearErrors();
+            } else {
+                trigger();
             }
         }, []);
 
@@ -73,9 +73,9 @@ const ExperienceForm = React.forwardRef(
             }
         }, [experience[n]]);
 
+        console.log(ref);
+
         const submitHandler = () => {
-            console.log("submit", n);
-            console.log(isValid);
             if (isValid.every((val) => val === true)) navigation("/add/3");
         };
 
@@ -91,7 +91,10 @@ const ExperienceForm = React.forwardRef(
 
         return (
             <Flex
-                as="form"
+                as={motion.form}
+                initial={{ width: "50%" }}
+                animate={{ width: "100%" }}
+                exit={{ x: window.innerWidth, transition: { duration: 5 } }}
                 position="relative"
                 flexDirection="column"
                 rowGap="25px"

@@ -1,11 +1,8 @@
 import { Flex } from "@/components/library/Flex.styled";
 import InputField from "@/components/shared/inputField/InputField";
-import { InputFieldLabel } from "@/components/shared/inputField/InputField.styled";
 import InputTextField from "@/components/shared/inputField/InputTextField";
-import PagebackButton from "@/components/shared/pageNavButton/PageBackButton";
 import PageNavButton from "@/components/shared/pageNavButton/PageNavButton";
 import {
-    imageValidation,
     mailValidation,
     phoneValidation,
     nameValidation,
@@ -13,9 +10,11 @@ import {
 } from "@/utils/validators";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { useGeneralInfoStore } from "@/stores/generalInfo";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import FileInput from "@/components/library/FileInput";
+import { fieldsAreEmpty } from "@/utils/helpers";
+import { motion } from "framer-motion";
 
 const GeneralInfoForm = () => {
     const {
@@ -23,6 +22,7 @@ const GeneralInfoForm = () => {
         setError,
         clearErrors,
         control,
+        trigger,
         formState: { errors, isValid: formIsValid },
     } = useForm({ mode: "onChange" });
     const setGeneralInfo = useGeneralInfoStore((state) => state.setGeneralInfo);
@@ -32,7 +32,11 @@ const GeneralInfoForm = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        console.log(isValid);
+        if (fieldsAreEmpty(generalinfo)) {
+            clearErrors();
+        } else {
+            trigger();
+        }
         clearErrors("image");
     }, []);
 
@@ -51,10 +55,12 @@ const GeneralInfoForm = () => {
 
     return (
         <Flex
-            as="form"
+            as={motion.form}
+            initial={{ width: "50%" }}
+            animate={{ width: "100%" }}
+            exit={{ x: window.innerWidth, transition: { duration: 5 } }}
             position="relative"
             onSubmit={handleSubmit(onSubmit)}
-            // onChange={onChange}
             flexDirection="column"
             rowGap="25px"
             width="100%"

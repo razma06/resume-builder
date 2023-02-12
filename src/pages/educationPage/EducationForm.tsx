@@ -1,13 +1,16 @@
 import { Flex } from "@/components/library/Flex.styled";
+import Loader from "@/components/library/Loader";
 import InputField from "@/components/shared/inputField/InputField";
 import InputTextField from "@/components/shared/inputField/InputTextField";
 import { emptyEducation, useEducationStore } from "@/stores/education";
+import { fieldsAreEmpty } from "@/utils/helpers";
 import {
     nameValidation,
     jobDescriptionValidation,
     dateValidation,
     jobTitleValidation,
 } from "@/utils/validators";
+import { motion } from "framer-motion";
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
@@ -28,10 +31,10 @@ const EducationForm = React.forwardRef(({ n }: { n: number }, ref: any) => {
     const navigation = useNavigate();
 
     useEffect(() => {
-        if (Object.values(education[n]).every((value) => !value === false)) {
-            trigger();
-        } else {
+        if (fieldsAreEmpty(education[n])) {
             clearErrors();
+        } else {
+            trigger();
         }
     }, []);
 
@@ -40,7 +43,6 @@ const EducationForm = React.forwardRef(({ n }: { n: number }, ref: any) => {
             JSON.stringify(education[n]) === JSON.stringify(emptyEducation) &&
             n > 0
         ) {
-            console.log("here");
             setIsValid(true, n);
         } else {
             setIsValid(formIsValid, n);
@@ -73,9 +75,14 @@ const EducationForm = React.forwardRef(({ n }: { n: number }, ref: any) => {
         }
     };
 
+    if (degreeData.error) return <p>Something went wrong</p>;
+
     return (
         <Flex
-            as="form"
+            as={motion.form}
+            initial={{ width: "50%" }}
+            animate={{ width: "100%" }}
+            exit={{ x: window.innerWidth, transition: { duration: 5 } }}
             position="relative"
             flexDirection="column"
             rowGap="25px"
@@ -108,8 +115,8 @@ const EducationForm = React.forwardRef(({ n }: { n: number }, ref: any) => {
                     control={control}
                     setValue={setEducation}
                     dirtyFields={dirtyFields}
-                    n={n}
                     validation={dateValidation}
+                    n={n}
                 />
                 <InputField
                     type="date"

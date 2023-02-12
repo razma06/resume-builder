@@ -4,10 +4,10 @@ import useSetResume from "@/hooks/useSetResume";
 import { useEducationStore } from "@/stores/education";
 import { useExperienceStore } from "@/stores/experience";
 import { useGeneralInfoStore } from "@/stores/generalInfo";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import CustomToast from "@/components/library/CustomToast";
+import Loader from "@/components/library/Loader";
 
 const BuiltResume = () => {
     const { sendRequest, isError, isLoading, message } = useSetResume();
@@ -15,10 +15,11 @@ const BuiltResume = () => {
     const experienceIsValid = useExperienceStore((state) => state.isValid);
     const educationIsValid = useEducationStore((state) => state.isValid);
 
+    const [loadToasts, setLoadToasts] = useState(false);
+
     const navigate = useNavigate();
 
     useEffect(() => {
-        console.log("render");
         if (!generalInfoIsValid) navigate("/add/1");
         else if (!experienceIsValid.every((val) => val === true))
             navigate("/add/2");
@@ -27,36 +28,18 @@ const BuiltResume = () => {
         else sendRequest();
     }, []);
 
-    const notify = () =>
-        toast(message, {
-            style: {
-                color: "#1A1A1A",
-                padding: "35px 20px",
-                borderRadius: "8px",
-                fontSize: "28px",
-                width: "427px",
-                top: "53px",
-                right: "170px",
-            },
-            position: "top-right",
-            autoClose: false,
-            hideProgressBar: true,
-            rtl: false,
-            theme: "light",
-        });
-
     useEffect(() => {
-        if (!isLoading) notify();
+        if (!isLoading) setLoadToasts(true);
     }, [isLoading]);
 
-    return (
-        !isLoading && (
-            <>
-                <ToastContainer />
-                <BackHomeButton wantRefresh />
-                {!isError && <Resume built />}
-            </>
-        )
+    return !isLoading ? (
+        <div style={{ paddingBlock: "70px" }}>
+            {loadToasts && <CustomToast message={message} />}
+            <BackHomeButton wantRefresh />
+            {!isError && <Resume built />}
+        </div>
+    ) : (
+        <Loader />
     );
 };
 

@@ -49,6 +49,13 @@ export const Input = styled.input`
     &::placeholder {
         color: var(--placeholder);
     }
+    &:empty::-webkit-datetime-edit {
+        color: var(--placeholder);
+    }
+
+    &:valid::-webkit-datetime-edit {
+        color: var(--label);
+    }
 
     &:focus {
         outline: 1px solid var(--border);

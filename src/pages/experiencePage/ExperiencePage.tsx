@@ -38,8 +38,8 @@ const ExperiencePage = () => {
     const addClickHandler = () => {
         addExperience();
         setForms([
-            ...forms,
             React.createRef() as React.MutableRefObject<HTMLFormElement>,
+            ...forms,
         ]);
 
         setExperienceNumber([...experienceNumber, experienceNumber.length]);

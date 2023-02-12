@@ -72,13 +72,9 @@ const InputField: React.FC<InputFieldProps> = ({
                         <ReactSelect
                             {...field}
                             isError={invalid}
-                            isSuccess={!invalid && !!value}
+                            isSuccess={!invalid && value}
+                            value={options && value ? options[value - 1] : null}
                             placeholder={placeholder}
-                            value={
-                                options && value !== -1
-                                    ? options[value - 1]
-                                    : undefined
-                            }
                             options={options}
                             getOptionLabel={(option: any) => option?.title}
                         />

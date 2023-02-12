@@ -3,7 +3,7 @@ import { create } from "zustand";
 
 export interface Education {
     institute: string;
-    degree_id: number;
+    degree_id: number | null;
     due_date: string;
     description: string;
     degree?: string;
@@ -32,7 +32,7 @@ interface EducationStore {
 
 export const emptyEducation: Education = {
     institute: "",
-    degree_id: -1,
+    degree_id: null,
     due_date: "",
     description: "",
 };

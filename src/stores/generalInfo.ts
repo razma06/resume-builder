@@ -43,7 +43,6 @@ export const useGeneralInfoStore = create<GeneralInfoStore>((set) => ({
             return { isValid };
         }),
     setResponseData: (data) => {
-        console.log(data.image);
         set({
             generalInfo: {
                 name: data.name,

@@ -14,6 +14,9 @@ interface SelectType<SelectProps> extends Props {
 
 const ReactSelect = React.forwardRef(
     (props: SelectType<SelectProps>, ref: any) => {
+        console.log(props.isError);
+        console.log(props.value);
+
         const colorStyles = {
             control: (styles: any, { isFocused, isSelected }: any) => ({
                 ...styles,
@@ -61,11 +64,11 @@ const ReactSelect = React.forwardRef(
         };
         return (
             <Select
+                {...props}
                 components={{
                     IndicatorSeparator: () => null,
                 }}
                 ref={ref}
-                {...props}
                 styles={colorStyles}
             />
         );
