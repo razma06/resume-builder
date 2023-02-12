@@ -1,4 +1,5 @@
 import Add from "@/pages/add/Add";
+import BuiltResume from "@/pages/builtResume/BuiltResume";
 import ExperienceForm from "@/pages/experiencePage/ExperienceForm";
 import ExperiencePage from "@/pages/experiencePage/ExperiencePage";
 import GeneralInfoForm from "@/pages/generalInfoPage/GeneralInfoForm";
@@ -11,7 +12,7 @@ const routes = createBrowserRouter([
         element: <Home />,
     },
     {
-        path: "add",
+        path: "add/*",
         element: <Add />,
         children: [
             {
@@ -27,6 +28,10 @@ const routes = createBrowserRouter([
                 element: <ExperiencePage />,
             },
         ],
+    },
+    {
+        path: "resume",
+        element: <BuiltResume />,
     },
 ]);
 export default routes;

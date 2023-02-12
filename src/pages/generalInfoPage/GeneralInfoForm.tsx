@@ -19,21 +19,26 @@ import FileInput from "@/components/library/FileInput";
 
 const GeneralInfoForm = () => {
     const {
-        register,
         handleSubmit,
-        watch,
         setError,
         clearErrors,
         control,
-        formState: { errors, dirtyFields },
+        formState: { errors, isValid: formIsValid },
     } = useForm({ mode: "onChange" });
     const setGeneralInfo = useGeneralInfoStore((state) => state.setGeneralInfo);
     const generalinfo = useGeneralInfoStore((state) => state.generalInfo);
+    const setIsValid = useGeneralInfoStore((state) => state.setIsValid);
+    const isValid = useGeneralInfoStore((state) => state.isValid);
     const navigate = useNavigate();
 
     useEffect(() => {
+        console.log(isValid);
         clearErrors("image");
     }, []);
+
+    useEffect(() => {
+        setIsValid(formIsValid);
+    }, [formIsValid]);
 
     const onSubmit: SubmitHandler<FieldValues> = () => {
         if (!generalinfo.image?.length) {
@@ -43,6 +48,7 @@ const GeneralInfoForm = () => {
             navigate("/add/2");
         }
     };
+
     return (
         <Flex
             as="form"
@@ -63,7 +69,6 @@ const GeneralInfoForm = () => {
                     hint="მინიმუმ 2 ასო, ქართული ასოები"
                     name="name"
                     validation={nameValidation}
-                    dirtyFields={dirtyFields}
                     value={generalinfo.name}
                     control={control}
                     setValue={setGeneralInfo}
@@ -75,7 +80,6 @@ const GeneralInfoForm = () => {
                     hint="მინიმუმ 2 ასო, ქართული ასოები"
                     name="surname"
                     validation={nameValidation}
-                    dirtyFields={dirtyFields}
                     value={generalinfo.surname}
                     control={control}
                     setValue={setGeneralInfo}
@@ -108,7 +112,6 @@ const GeneralInfoForm = () => {
                 hint="უნდა მთავრდებოდეს @redberry.ge"
                 name="email"
                 validation={mailValidation}
-                dirtyFields={dirtyFields}
                 value={generalinfo.email}
                 control={control}
                 setValue={setGeneralInfo}
@@ -120,7 +123,6 @@ const GeneralInfoForm = () => {
                 hint="უნდა აკმაყოფილებდეს ქართული მობულური ნომრის ფორმატს"
                 name="phone_number"
                 validation={phoneValidation}
-                dirtyFields={dirtyFields}
                 value={generalinfo.phone_number}
                 control={control}
                 setValue={setGeneralInfo}

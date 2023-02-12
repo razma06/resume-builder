@@ -1,7 +1,7 @@
 import { Flex } from "@/components/library/Flex.styled";
 import InputField from "@/components/shared/inputField/InputField";
 import InputTextField from "@/components/shared/inputField/InputTextField";
-import { useEducationStore } from "@/stores/education";
+import { emptyEducation, useEducationStore } from "@/stores/education";
 import {
     nameValidation,
     jobDescriptionValidation,
@@ -13,30 +13,64 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 
 const EducationForm = React.forwardRef(({ n }: { n: number }, ref: any) => {
-    const getDegreesData = useEducationStore((state) => state.getDegreesData);
     const degreeData = useEducationStore((state) => state.degree);
     const education = useEducationStore((state) => state.education);
     const setEducation = useEducationStore((state) => state.setEducation);
+    const isValid = useEducationStore((state) => state.isValid);
+    const setIsValid = useEducationStore((state) => state.setIsValid);
     const {
         control,
         trigger,
+        clearErrors,
         handleSubmit,
-        formState: { errors, dirtyFields },
+        formState: { errors, dirtyFields, isValid: formIsValid },
     } = useForm({ mode: "onChange" });
     const navigation = useNavigate();
 
     useEffect(() => {
-        getDegreesData();
-
-        if (
-            Object.values(education[n].data).every((value) => !value === false)
-        ) {
+        if (Object.values(education[n]).every((value) => !value === false)) {
             trigger();
+        } else {
+            clearErrors();
         }
     }, []);
 
-    const submitHandler = (data: any, e: any) => {
-        navigation("/");
+    useEffect(() => {
+        if (
+            JSON.stringify(education[n]) === JSON.stringify(emptyEducation) &&
+            n > 0
+        ) {
+            console.log("here");
+            setIsValid(true, n);
+        } else {
+            setIsValid(formIsValid, n);
+        }
+    }, [formIsValid]);
+
+    useEffect(() => {
+        if (n > 0) {
+            if (
+                JSON.stringify(education[n]) === JSON.stringify(emptyEducation)
+            ) {
+                clearErrors();
+                setIsValid(true, n);
+            } else {
+                setIsValid(formIsValid, n);
+            }
+        }
+    }, [education[n]]);
+
+    const submitHandler = () => {
+        if (isValid.every((val) => val === true)) navigation("/resume");
+    };
+
+    const invalidHandler = () => {
+        if (
+            JSON.stringify(education[n]) === JSON.stringify(emptyEducation) &&
+            n > 0
+        ) {
+            clearErrors();
+        }
     };
 
     return (
@@ -47,7 +81,7 @@ const EducationForm = React.forwardRef(({ n }: { n: number }, ref: any) => {
             rowGap="25px"
             width="100%"
             ref={ref}
-            onSubmit={handleSubmit(submitHandler)}
+            onSubmit={handleSubmit(submitHandler, invalidHandler)}
         >
             <InputField
                 type="text"
@@ -57,7 +91,7 @@ const EducationForm = React.forwardRef(({ n }: { n: number }, ref: any) => {
                 name="institute"
                 control={control}
                 setValue={setEducation}
-                value={education[n].data.institute}
+                value={education[n].institute}
                 validation={jobTitleValidation}
                 dirtyFields={dirtyFields}
                 n={n}
@@ -67,10 +101,10 @@ const EducationForm = React.forwardRef(({ n }: { n: number }, ref: any) => {
                     type="text"
                     label="ხარისხი"
                     wantSelect={true}
-                    options={degreeData.data}
                     placeholder="აირჩიეთ ხარისხი"
-                    name="degree"
-                    value={education[n].data.degree}
+                    name="degree_id"
+                    options={degreeData.data}
+                    value={education[n].degree_id}
                     control={control}
                     setValue={setEducation}
                     dirtyFields={dirtyFields}
@@ -86,7 +120,7 @@ const EducationForm = React.forwardRef(({ n }: { n: number }, ref: any) => {
                     dirtyFields={dirtyFields}
                     name="due_date"
                     validation={dateValidation}
-                    value={education[n].data.due_date}
+                    value={education[n].due_date}
                     n={n}
                 />
             </Flex>
@@ -97,14 +131,12 @@ const EducationForm = React.forwardRef(({ n }: { n: number }, ref: any) => {
                 placeholder="განათლების აღწერა"
                 control={control}
                 setValue={setEducation}
+                value={education[n].description}
                 name="description"
                 validation={jobDescriptionValidation}
                 n={n}
                 isError={errors.description && true}
-                isSuccess={
-                    !errors.description && !!education[n].data.description
-                }
-                value={education[n].data.description}
+                isSuccess={!errors.description && !!education[n].description}
             />
         </Flex>
     );

@@ -8,5 +8,5 @@ export const Button = styled.button`
     font-size: 1rem;
     font-weight: 500;
     border-radius: 4px;
-    margin-top: 45px;
+    margin-top: 19px;
 `;

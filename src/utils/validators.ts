@@ -21,7 +21,7 @@ export const mailValidation = {
 export const phoneValidation = {
     required: true,
     pattern: {
-        value: /^(\+995[\s-]5\d{2}[\s-]\d{2}[\s-]\d{2}[\s-]\d{2}|\+9955\d{8})$/,
+        value: /^(\+9955\d{8})$/,
         message: "Mobile number is not valid",
     },
 };

@@ -34,7 +34,9 @@ const Description: React.FC<DescriptionProps> = ({
         <>
             {wantLine && <BreakingLine />}
             <DescriptionContainer style={style}>
-                {wantTitle && <DescriptionTitle>{title}</DescriptionTitle>}
+                {wantTitle && (detailTitle || descriptionText) && (
+                    <DescriptionTitle>{title}</DescriptionTitle>
+                )}
                 {!!detailTitle && (
                     <DescriptionDetailContainer>
                         <>

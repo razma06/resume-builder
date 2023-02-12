@@ -47,13 +47,17 @@ const InputField: React.FC<InputFieldProps> = ({
         <Controller
             name={name}
             control={control}
-            defaultValue={value.title !== undefined ? value.title : value}
+            defaultValue={value?.title !== undefined ? value.title : value}
             rules={{
                 onChange(e) {
-                    if (n !== undefined) {
-                        setValue(name, e.target.value, n);
+                    if (wantSelect) {
+                        setValue(name, e.target.value.id, n);
                     } else {
-                        setValue(name, e.target.value);
+                        if (n !== undefined) {
+                            setValue(name, e.target.value, n);
+                        } else {
+                            setValue(name, e.target.value);
+                        }
                     }
                 },
                 ...validation,
@@ -64,15 +68,19 @@ const InputField: React.FC<InputFieldProps> = ({
                     isSuccess={!invalid && value}
                 >
                     <InputFieldLabel>{label}</InputFieldLabel>
-                    {wantSelect ? (
+                    {wantSelect && options ? (
                         <ReactSelect
                             {...field}
                             isError={invalid}
-                            isSuccess={!invalid && !!value.title}
+                            isSuccess={!invalid && !!value}
                             placeholder={placeholder}
-                            value={field.value || value.title}
+                            value={
+                                options && value !== -1
+                                    ? options[value - 1]
+                                    : undefined
+                            }
                             options={options}
-                            getOptionLabel={(option: any) => option.title}
+                            getOptionLabel={(option: any) => option?.title}
                         />
                     ) : (
                         <InputContainer>
@@ -81,7 +89,7 @@ const InputField: React.FC<InputFieldProps> = ({
                                 value={field.value || value}
                                 placeholder={placeholder}
                                 type={type}
-                                maxLength={80}
+                                maxLength={60}
                             />
                             {type == "text" &&
                                 (invalid ? (

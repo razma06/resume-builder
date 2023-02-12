@@ -2,15 +2,18 @@ import { useGeneralInfoStore } from "@/stores/generalInfo";
 import EducationSection from "./EducationSection";
 import ExperienceSection from "./ExperienceSection";
 import GeneralInfoSection from "./GeneralInfoSection";
-import { BreakingLine, ResumeContainer } from "./Resume.styled";
+import { ResumeContainer, ResumeIcon } from "./Resume.styled";
+import ResumeImage from "@/assets/images/resume.png";
+import { StyledComponent, StyledComponentProps } from "styled-components";
 
-const Resume = () => {
+const Resume: React.FC<{ built?: boolean }> = ({ built }) => {
     return (
-        <ResumeContainer>
+        <ResumeContainer built={built}>
             <GeneralInfoSection />
 
             <ExperienceSection />
             <EducationSection />
+            <ResumeIcon src={ResumeImage} alt="logo" />
         </ResumeContainer>
     );
 };

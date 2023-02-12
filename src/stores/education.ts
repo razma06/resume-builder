@@ -2,18 +2,16 @@ import { getDegrees } from "@/services/getDegrees";
 import { create } from "zustand";
 
 export interface Education {
-    isValid: boolean;
-    data: {
-        institute: string;
-        degree: { title: string; id: number };
-        due_date: string;
-        description: string;
-    };
+    institute: string;
+    degree_id: number;
+    due_date: string;
+    description: string;
+    degree?: string;
 }
 
 export interface Degree {
     error: boolean;
-    data: string[];
+    data: { id: number; title: string }[];
 }
 
 interface EducationStore {
@@ -24,33 +22,48 @@ interface EducationStore {
         n: number,
         isValid: boolean
     ) => void;
+    isValid: boolean[];
+    setIsValid: (isValid: boolean, n: number) => void;
     addEducation: () => void;
     getDegreesData: () => void;
+    setResponseData: (data: Education) => void;
     degree: Degree;
 }
 
-const emptyEducation: Education = {
-    isValid: false,
-    data: {
-        institute: "",
-        degree: { title: "", id: 0 },
-        due_date: "",
-        description: "",
-    },
+export const emptyEducation: Education = {
+    institute: "",
+    degree_id: -1,
+    due_date: "",
+    description: "",
 };
 
 const defaultEducation = JSON.parse(
     localStorage.getItem("education") || `[${JSON.stringify(emptyEducation)}]`
 );
 
+const defaultEducationIsValid = JSON.parse(
+    localStorage.getItem("educationIsValid") ||
+        JSON.stringify(new Array(defaultEducation.length).fill(false))
+);
+
 export const useEducationStore = create<EducationStore>((set) => ({
     education: defaultEducation,
+    isValid: defaultEducationIsValid,
+    setIsValid: (isValid, n) =>
+        set((state) => {
+            state.isValid[n] = isValid;
+
+            localStorage.setItem(
+                "educationIsValid",
+                JSON.stringify(state.isValid)
+            );
+
+            return { isValid: state.isValid };
+        }),
     addEducation: () => {
         set((state) => ({
-            education: [
-                ...state.education,
-                { ...emptyEducation, isValid: true },
-            ],
+            education: [...state.education, { ...emptyEducation }],
+            isValid: [...state.isValid, true],
         }));
     },
     degree: {
@@ -64,21 +77,20 @@ export const useEducationStore = create<EducationStore>((set) => ({
                     ...state.education.slice(0, n),
                     {
                         ...state.education[n],
-                        data: {
-                            ...state.education[n].data,
-                            [name]: value,
-                        },
+                        [name]: value,
                     },
                     ...state.education.slice(n + 1),
                 ],
             };
-            console.log(newData);
             localStorage.setItem(
                 "education",
                 JSON.stringify(newData.education)
             );
             return newData;
         });
+    },
+    setResponseData: (data: any) => {
+        set({ education: data.educations });
     },
     async getDegreesData() {
         try {

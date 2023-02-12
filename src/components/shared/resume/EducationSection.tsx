@@ -5,7 +5,9 @@ import { BreakingLine } from "./Resume.styled";
 
 const EducationSection = () => {
     const education = useEducationStore((state) => state.education);
+    const degree = useEducationStore((state) => state.degree);
 
+    console.log(education[0]);
     return (
         <section>
             {education.length === 0 && (
@@ -19,17 +21,22 @@ const EducationSection = () => {
                     <Description
                         key={i}
                         title="განათლება"
-                        wantLine={true}
+                        wantLine={!!education.institute}
                         wantTitle={i === 0}
-                        descriptionText={education.data.description}
+                        descriptionText={education.description}
                         detailTitle={
-                            education.data.institute
-                                ? education.data.institute +
-                                  ", " +
-                                  education.data.degree.title
-                                : education.data.degree.title
+                            education.institute
+                                ? education.institute +
+                                      ", " +
+                                      degree.data.find(
+                                          (val) =>
+                                              val.id === education.degree_id
+                                      )?.title || education.degree
+                                : degree.data.find(
+                                      (val) => val.id === education.degree_id
+                                  )?.title || education.degree
                         }
-                        endDate={education.data.due_date}
+                        endDate={education.due_date}
                     />
                 );
             })}

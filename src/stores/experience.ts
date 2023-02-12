@@ -1,51 +1,61 @@
 import { create } from "zustand";
 
 export interface Experience {
-    isValid: boolean;
-    data: {
-        position: string;
-        employer: string;
-        start_date: string;
-        end_date: string;
-        description: string;
-    };
+    position: string;
+    employer: string;
+    start_date: string;
+    due_date: string;
+    description: string;
 }
 
 interface ExperienceStore {
     experience: Experience[];
-    setExperience: (
-        name: string,
-        value: any,
-        n: number,
-        isValid: boolean
-    ) => void;
+    isValid: boolean[];
+    setIsValid: (isValid: boolean, n: number) => void;
+    setExperience: (name: string, value: any, n: number) => void;
+    setResponseData: (data: any) => void;
     addExperience: () => void;
 }
 
-const emptyExperience: Experience = {
-    isValid: false,
-    data: {
-        position: "",
-        employer: "",
-        start_date: "",
-        end_date: "",
-        description: "",
-    },
+export const emptyExperience: Experience = {
+    position: "",
+    employer: "",
+    start_date: "",
+    due_date: "",
+    description: "",
 };
 
 const defaultExperience = JSON.parse(
     localStorage.getItem("experience") || `[${JSON.stringify(emptyExperience)}]`
 );
 
+const defaultExperienceIsValid = JSON.parse(
+    localStorage.getItem("experienceIsValid") ||
+        JSON.stringify(new Array(defaultExperience.length).fill(false))
+);
+
 export const useExperienceStore = create<ExperienceStore>((set) => ({
     experience: defaultExperience,
+    isValid: defaultExperienceIsValid,
+    setIsValid: (isValid, n) =>
+        set((state) => {
+            state.isValid[n] = isValid;
+            localStorage.setItem(
+                "experienceIsValid",
+                JSON.stringify(state.isValid)
+            );
+            return { isValid: state.isValid };
+        }),
     addExperience: () => {
         set((state) => ({
-            experience: [
-                ...state.experience,
-                { ...emptyExperience, isValid: true },
-            ],
+            experience: [...state.experience, { ...emptyExperience }],
+            isValid: [...state.isValid, true],
         }));
+    },
+    setResponseData: (data) => {
+        set({
+            experience: data.experiences,
+        });
     },
     setExperience: (name, value, n) => {
         set((state) => {
@@ -54,10 +64,7 @@ export const useExperienceStore = create<ExperienceStore>((set) => ({
                     ...state.experience.slice(0, n),
                     {
                         ...state.experience[n],
-                        data: {
-                            ...state.experience[n].data,
-                            [name]: value,
-                        },
+                        [name]: value,
                     },
                     ...state.experience.slice(n + 1),
                 ],

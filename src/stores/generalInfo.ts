@@ -11,6 +11,9 @@ export interface GeneralInfo {
 
 export interface GeneralInfoStore {
     generalInfo: GeneralInfo;
+    isValid: boolean;
+    setIsValid: (isValid: boolean) => void;
+    setResponseData: (data: GeneralInfo) => void;
     setGeneralInfo: (name: string, value: any) => void;
 }
 
@@ -27,8 +30,31 @@ const defaultGeneralInfo = JSON.parse(
     localStorage.getItem("generalInfo") || JSON.stringify(emptyGeneralInfo)
 );
 
+const defaultGeneralInfoIsValid = JSON.parse(
+    localStorage.getItem("generalInfoIsValid") || "false"
+);
+
 export const useGeneralInfoStore = create<GeneralInfoStore>((set) => ({
     generalInfo: defaultGeneralInfo,
+    isValid: defaultGeneralInfoIsValid,
+    setIsValid: (isValid) =>
+        set((state) => {
+            localStorage.setItem("generalInfoIsValid", JSON.stringify(isValid));
+            return { isValid };
+        }),
+    setResponseData: (data) => {
+        console.log(data.image);
+        set({
+            generalInfo: {
+                name: data.name,
+                surname: data.surname,
+                email: data.email,
+                phone_number: data.phone_number,
+                about_me: data.about_me,
+                image: "https://resume.redberryinternship.ge" + data.image,
+            },
+        });
+    },
     setGeneralInfo: (name, value) => {
         set((state) => {
             const newGeneralInfo = {

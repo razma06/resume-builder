@@ -9,27 +9,21 @@ const ExperienceSection = () => {
 
     return (
         <section>
-            {experience.length === 0 && (
-                <>
-                    <BreakingLine />
-                    <h3 className="small-title">გამოცდილება</h3>
-                </>
-            )}
             {experience.map((e, i) => {
                 return (
                     <Description
                         key={i}
                         title="გამოცდილება"
-                        wantLine={true}
+                        wantLine={!!e.employer}
                         wantTitle={i === 0}
-                        descriptionText={e.data.description}
+                        descriptionText={e.description}
                         detailTitle={
-                            e.data.employer
-                                ? e.data.position + ", " + e.data.employer
-                                : e.data.position
+                            e.employer
+                                ? e.position + ", " + e.employer
+                                : e.position
                         }
-                        endDate={e.data.end_date}
-                        stratDate={e.data.start_date}
+                        endDate={e.due_date}
+                        stratDate={e.start_date}
                     />
                 );
             })}

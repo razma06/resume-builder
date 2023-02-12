@@ -3,26 +3,37 @@ import { Flex } from "@/components/library/Flex.styled";
 import PagebackButton from "@/components/shared/pageNavButton/PageBackButton";
 import PageNavButton from "@/components/shared/pageNavButton/PageNavButton";
 import { PageNavButtonStyled } from "@/components/shared/pageNavButton/PageNavButton.styled";
+import { BreakingLine } from "@/components/shared/resume/Resume.styled";
 import { useExperienceStore } from "@/stores/experience";
-import React, { FormEvent, useRef, useState } from "react";
+import { useGeneralInfoStore } from "@/stores/generalInfo";
+import React, { FormEvent, useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import ExperienceForm from "./ExperienceForm";
 
 const ExperiencePage = () => {
     const addExperience = useExperienceStore((state) => state.addExperience);
     const experience = useExperienceStore((state) => state.experience);
+    const generalInfoIsValid = useGeneralInfoStore((state) => state.isValid);
     const [experienceNumber, setExperienceNumber] = useState<number[]>([
         ...Array(experience.length).keys(),
     ]);
     const [forms, setForms] = useState<
         React.MutableRefObject<HTMLFormElement>[]
     >(
-        new Array(experience.length).fill(
-            useRef() as React.MutableRefObject<HTMLFormElement>
+        Array.from(
+            { length: experience.length },
+            (_, i) =>
+                React.createRef() as React.MutableRefObject<HTMLFormElement>
         )
     );
 
-    const nav = useNavigate();
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if (!generalInfoIsValid) {
+            navigate("/add/1");
+        }
+    }, []);
 
     const addClickHandler = () => {
         addExperience();
@@ -33,7 +44,6 @@ const ExperiencePage = () => {
 
         setExperienceNumber([...experienceNumber, experienceNumber.length]);
     };
-
     const nextClickHandler = () => {
         forms.forEach((form) => {
             const event = new Event("submit", {
@@ -42,24 +52,38 @@ const ExperiencePage = () => {
             });
             form.current.dispatchEvent(event);
         });
-
-        // if (experience.every((exp) => exp.isValid == true)) {
-        //     nav("/add/3");
-        // }
     };
 
     return (
-        <div style={{ position: "relative", minHeight: "75vh" }}>
-            {experienceNumber.map((n) => (
-                <ExperienceForm ref={forms[n]} key={n} n={n} />
-            ))}
-            <Button onClick={addClickHandler}>
-                მეტი გამოცდილების დამატება
-            </Button>
+        <div
+            style={{
+                position: "relative",
+                minHeight: "75vh",
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "space-between",
+            }}
+        >
+            <div>
+                {experienceNumber.map((n) => (
+                    <React.Fragment key={n}>
+                        <ExperienceForm
+                            ref={forms[forms.length - 1 - n]}
+                            n={n}
+                        />
+                        <BreakingLine />
+                    </React.Fragment>
+                ))}
+                <Button
+                    style={{ marginBottom: "50px" }}
+                    onClick={addClickHandler}
+                >
+                    მეტი გამოცდილების დამატება
+                </Button>
+            </div>
             <Flex
                 style={{ bottom: "0" }}
                 flexDirection="row-reverse"
-                // position="absolute"
                 width="100%"
                 justifyContent="space-between"
             >

@@ -1,11 +1,18 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
-export const ResumeContainer = styled.aside`
+export const ResumeContainer = styled.aside<{ built?: boolean }>`
     width: 822px;
-    padding: 68px 80px;
+    padding: 68px 80px 120px 80px;
     background-color: white;
     min-height: 100vh;
     position: relative;
+
+    ${({ built }) =>
+        built &&
+        css`
+            margin-inline: auto;
+            border: 0.8px solid black;
+        `}
 
     &::after {
         content: "";
@@ -23,6 +30,7 @@ export const ResumeContainer = styled.aside`
         font-weight: 700;
         word-spacing: 20px;
         margin-bottom: 20px;
+        max-width: 470px;
     }
 
     .contact {
@@ -57,4 +65,11 @@ export const BreakingLine = styled.hr`
     border-bottom: 1px solid var(--border);
     width: 100%;
     margin-block: 2rem 1.625rem;
+`;
+
+export const ResumeIcon = styled.img`
+    width: 42px;
+    position: absolute;
+    bottom: 44px;
+    left: 78px;
 `;
