@@ -12,8 +12,12 @@ const CloseButton = ({ closeToast }: { closeToast: any }) => (
     </button>
 );
 
-const CustomToast: React.FC<{ message: string }> = ({ message }) => {
+const CustomToast: React.FC<{ message: string; isLoading: boolean }> = ({
+    message,
+    isLoading,
+}) => {
     useEffect(() => {
+        if (isLoading) return;
         toast("რეზიუმე წარმატებით გაიგზავნა 🎉", {
             style: {
                 position: "absolute",
@@ -33,9 +37,9 @@ const CustomToast: React.FC<{ message: string }> = ({ message }) => {
             rtl: false,
             theme: "light",
         });
-    }, []);
+    }, [isLoading]);
 
-    return <ToastContainer closeButton={CloseButton} />;
+    return <ToastContainer limit={1} closeButton={CloseButton} />;
 };
 
 export default CustomToast;

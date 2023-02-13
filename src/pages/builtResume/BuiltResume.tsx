@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import CustomToast from "@/components/library/CustomToast";
 import Loader from "@/components/library/Loader";
+import { motion } from "framer-motion";
 
 const BuiltResume = () => {
     const { sendRequest, isError, isLoading, message } = useSetResume();
@@ -34,9 +35,28 @@ const BuiltResume = () => {
 
     return !isLoading ? (
         <div style={{ paddingBlock: "70px" }}>
-            {loadToasts && <CustomToast message={message} />}
+            {loadToasts && (
+                <CustomToast message={message} isLoading={isLoading} />
+            )}
             <BackHomeButton wantRefresh />
-            {!isError && <Resume built />}
+
+            {!isError && (
+                <motion.div
+                    initial={{
+                        opacity: 0,
+                        y: -200,
+                    }}
+                    animate={{
+                        opacity: 1,
+                        y: 0,
+                        transition: {
+                            duration: 0.3,
+                        },
+                    }}
+                >
+                    <Resume built />
+                </motion.div>
+            )}
         </div>
     ) : (
         <Loader />
