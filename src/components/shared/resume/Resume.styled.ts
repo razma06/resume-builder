@@ -29,7 +29,7 @@ export const ResumeContainer = styled.aside<{ built?: boolean }>`
         color: var(--primary);
         font-size: 34px;
         font-weight: 700;
-        word-spacing: 20px;
+        word-spacing: 10px;
         margin-bottom: 20px;
         max-width: 420px;
         word-wrap: break-word;
@@ -63,11 +63,11 @@ export const ResumeImage = styled.img`
     background-color: white;
 `;
 
-export const BreakingLine = styled.hr`
+export const BreakingLine = styled.hr<{ marginBlock?: string }>`
     border: none;
     border-bottom: 1px solid var(--border);
     width: 100%;
-    margin-block: 2rem 1.625rem;
+    margin-block: ${(props) => props.marginBlock || "2rem 1.625rem"};
 `;
 
 export const ResumeIcon = styled.img`

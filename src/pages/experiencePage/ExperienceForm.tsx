@@ -73,8 +73,6 @@ const ExperienceForm = React.forwardRef(
             }
         }, [experience[n]]);
 
-        console.log(ref);
-
         const submitHandler = () => {
             if (isValid.every((val) => val === true)) navigation("/add/3");
         };

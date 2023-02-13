@@ -43,12 +43,12 @@ const useSetResume = () => {
                 setExperiences(res.data);
                 setEducations(res.data);
                 setIsError(false);
-                setMessage("რეზიუმე წარმატებით შეინახა");
+                setMessage("რეზიუმე წარმატებით გაიგზავნა 🎉");
                 localStorage.clear();
             })
             .catch((err) => {
                 setIsError(true);
-                setMessage(err.message);
+                setMessage("მოხდა გაუთვალისწინებელი შემთხვევა");
             })
             .finally(() => {
                 setIsLoading(false);

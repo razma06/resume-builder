@@ -16,8 +16,6 @@ const BuiltResume = () => {
     const experienceIsValid = useExperienceStore((state) => state.isValid);
     const educationIsValid = useEducationStore((state) => state.isValid);
 
-    const [loadToasts, setLoadToasts] = useState(false);
-
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -29,15 +27,10 @@ const BuiltResume = () => {
         else sendRequest();
     }, []);
 
-    useEffect(() => {
-        if (!isLoading) setLoadToasts(true);
-    }, [isLoading]);
-
     return !isLoading ? (
         <div style={{ paddingBlock: "70px" }}>
-            {loadToasts && (
-                <CustomToast message={message} isLoading={isLoading} />
-            )}
+            <CustomToast isError={true} message={message} />
+
             <BackHomeButton wantRefresh />
 
             {!isError && (

@@ -14,7 +14,6 @@ export const formatNumber = (number: string) => {
 
 export const fieldsAreEmpty = (fields: Object) => {
     return Object.values(fields).every((value) => {
-        console.log(value, !value);
         return !value === true;
     });
 };

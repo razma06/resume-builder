@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import CloseIcon from "@/assets/icons/close-button.svg";
 import "react-toastify/dist/ReactToastify.css";
@@ -12,13 +12,15 @@ const CloseButton = ({ closeToast }: { closeToast: any }) => (
     </button>
 );
 
-const CustomToast: React.FC<{ message: string; isLoading: boolean }> = ({
-    message,
-    isLoading,
-}) => {
+const CustomToast: React.FC<{
+    message: string;
+    isError: boolean;
+}> = ({ message, isError }) => {
+    const [loaded, setLoaded] = useState(false);
+
     useEffect(() => {
-        if (isLoading) return;
-        toast("რეზიუმე წარმატებით გაიგზავნა 🎉", {
+        if (loaded) return;
+        toast(message, {
             style: {
                 position: "absolute",
                 color: "#1A1A1A",
@@ -30,14 +32,16 @@ const CustomToast: React.FC<{ message: string; isLoading: boolean }> = ({
                 right: "70px",
                 margin: "0px",
             },
-
+            toastId: "success1",
+            role: isError ? "error" : "success",
             position: "top-right",
             autoClose: false,
             hideProgressBar: true,
             rtl: false,
             theme: "light",
         });
-    }, [isLoading]);
+        setLoaded(true);
+    }, []);
 
     return <ToastContainer limit={1} closeButton={CloseButton} />;
 };

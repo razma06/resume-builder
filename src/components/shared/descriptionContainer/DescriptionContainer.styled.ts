@@ -17,6 +17,7 @@ export const DescriptionText = styled.p`
     font-size: 16px;
     color: black;
     line-height: 22px;
+    word-break: break-all;
 `;
 
 export const DescriptionDetailContainer = styled.div`

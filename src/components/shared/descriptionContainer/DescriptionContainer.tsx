@@ -18,6 +18,7 @@ interface DescriptionProps {
     style?: React.CSSProperties;
     wantTitle?: boolean;
     wantLine?: boolean;
+    breakMargin?: string;
 }
 
 const Description: React.FC<DescriptionProps> = ({
@@ -29,10 +30,11 @@ const Description: React.FC<DescriptionProps> = ({
     style,
     wantTitle = true,
     wantLine,
+    breakMargin,
 }) => {
     return (
         <>
-            {wantLine && <BreakingLine />}
+            {wantLine && <BreakingLine marginBlock={breakMargin} />}
             <DescriptionContainer style={style}>
                 {wantTitle && (detailTitle || descriptionText) && (
                     <DescriptionTitle>{title}</DescriptionTitle>

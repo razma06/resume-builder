@@ -15,6 +15,7 @@ const ExperienceSection = () => {
                         key={i}
                         title="გამოცდილება"
                         wantLine={!!e.employer}
+                        breakMargin={i === 0 ? "19px 24px" : undefined}
                         wantTitle={i === 0}
                         descriptionText={e.description}
                         detailTitle={

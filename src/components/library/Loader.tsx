@@ -12,14 +12,14 @@ const Loader = () => {
             }}
         >
             <Oval
-                height={80}
-                width={80}
+                height={70}
+                width={70}
                 color="var(--primary)"
                 visible={true}
                 ariaLabel="oval-loading"
                 secondaryColor="var(--border)"
-                strokeWidth={2}
-                strokeWidthSecondary={2}
+                strokeWidth={3}
+                strokeWidthSecondary={3}
             />
         </div>
     );
